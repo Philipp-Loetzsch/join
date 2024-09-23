@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join - summary</title>
+    <link rel="shortcut icon" href="./img/join_logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="./templates/menubar.css" />
+    <link rel="stylesheet" href="./templates/menubar-mobile.css" />
+    <link rel="stylesheet" href="./templates/header.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./css/summary.css" />
+    <script src="./js/script.js"></script>
+    <script src="./templates/menubar.js"></script>
+    <script src="./js/guestTemplates.js"></script>
+   
+    <script src="./js/summary.js"></script>
+  </head>
+  <body onload="includeHTML(); greetUser()">
+    <section w3-include-html="./templates/menubar.html"></section>
+    <main>
+      <section w3-include-html="./templates/header.html"></section>
+      <section class="content max-width loading_delay">
+        <div class="content-title">
+          <h2>Join 360</h2>
+          <div class="separator-vertical"></div>
+          <span class="title-text">Key Metrics at a Glance</span>
+          <div class="separator-horizon"></div>
+        </div>
+        <div class="overview-content">
+          <div id="summaryContent">
+          
+          </div>
+          <div id="greeting"></div>
+        </div>
+      </section>
+    </main>
+    <section w3-include-html="./templates/menubar-mobile.html" class="pos-sticky-bottom"></section>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join - Login</title>
+    <link rel="shortcut icon" href="./img/join_logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./css/log_in_animation.css">
+    <link rel="stylesheet" href="./css/log_in.css" />
+    <link rel="stylesheet" href="templates/menubar.css" />
+    <link rel="stylesheet" href="./templates/menubar-mobile.css" />
+    <script src="./js/script.js"></script>
+    <script src="templates/menubar.js"></script>
+    <script src="./js/logIn.js"></script>
+  </head>
+  <body class="center" onload="loadRememberStatus(); changeImagePw()">
+    <div id="bgLogInRepo"></div>
+    <div id="logoLogIn" ></div>
+    <section class="login_head">
+     
+      <div class="sign_up" id="signUpHeader">
+        <span>Not a Join user?</span>
+        <button class="button_dark btn_signup" onclick="openSignUp()">
+          sign up
+        </button>
+      </div>
+    </section>
+    <main class="max-width center loading_delay">
+      <section id="logIn" class="overlay">
+        <form onsubmit="requiredInput();return false">
+          <div><h1>Log in</h1></div>
+          <div id="underline"></div>
+          <div class="input_fields">          
+              <div class="input_value">
+                <input
+                type="text"
+                placeholder="Email"
+                id="emailLogIn"
+                onfocusin="selectField(id)"
+                onfocusout="unselectField(id)"
+                />
+                <img src="./img/mail.svg" alt="" />
+              </div>
+              <div class="required" id="requiredEmail"></div>
+            <div class="input_value">
+              <input
+                type="password"
+                placeholder="Password"
+                id="passwordLogIn"
+                oninput="changeImagePw()"
+                onfocusin="selectField(id)"
+                onfocusout="unselectField(id)"
+              />
+              <button id="btnShowPwLogIn" onclick="showPassword()" type="button" disabled="true"><img id="showPw" src="./img/lock.svg" alt=""/></button>
+            </div>
+            <div class="required" id="requiredPassword"></div>
+            <div class="check_item">
+              <button
+                type="button"
+                name="remember"
+                id="remember"
+                class="checkbox"
+                onclick="checkRemember()">
+                <img src="./img/Property 1=Default.svg" alt=""/>
+              </button>
+              <label for="remember" class="fs">Remeber me</label>
+            </div>
+          </div>
+
+          <div class="btn_submit">
+            <button
+              type="submit"
+              class="button_dark btn_login"
+            >
+              Log in
+            </button>
+            <button
+              onclick="guestLogIn()"
+              type="button"
+              class="button_bright btn_login"
+            >
+              Guest Log in
+            </button>
+          </div>
+        </form>
+      </section>
+      <section>
+        <div class="sign_up" id="signUpRespo">
+          <span>Not a Join user?</span>
+          <button class="button_dark btn_signup" onclick="openSignUp()">
+            sign up
+          </button>
+        </div>
+      </section>
+  
+ 
+    </main>
+    <section class="footer">
+      <a href="privacy.html">Privacy Policy</a> <a href="legal_notice.html">Legal notice</a>
+    </section>
+  </body>
+</html>

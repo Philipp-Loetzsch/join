@@ -1,0 +1,269 @@
+h3 {
+  margin: 0;
+  font-size: 47px;
+  font-weight: 500;
+}
+h4 {
+  margin: 0;
+  font-size: 64px;
+  font-weight: 700;
+  color: #29abe2;
+  text-align: center;
+}
+h5 {
+  margin: 0;
+  font-size: 64px;
+}
+
+#summaryContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 560px;
+  max-width: 560px;
+  gap: 20px;
+}
+
+#greeting {
+  text-align: center;
+}
+.content{
+  position: relative;
+  display: flex;
+  flex: 1;
+}
+.summary-gap {
+  display: flex;
+  gap: 18px;
+  font-size: 16px;
+}
+.overview-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.field-position {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+.summary-field {
+  display: flex;
+  text-align: center;
+  padding: 38px 19px;
+  background-color: white;
+  border-radius: 30px;
+  width: 50%;
+  justify-content: space-around;
+  align-items: center;
+}
+.summary-field:hover {
+  background-color: #2a3647;
+  color: #ffffff;
+}
+
+.icons-dark {
+  width: 69px;
+  height: 69px;
+  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#iconPencil {
+  background-image: url(/img/pencil.svg);
+}
+.summary-field:hover #iconPencil {
+  background-image: url(/img/pencil_bright.svg);
+}
+#iconDone {
+  background-image: url(/img/done.svg);
+}
+.summary-field:hover #iconDone {
+  background-image: url(/img/done_bright.svg);
+}
+
+.summary-field-long {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  background-color: white;
+  padding: 28px 0px;
+  border-radius: 30px;
+  width: 100%;
+}
+.summary-field-long:hover {
+  background-color: #2a3647;
+  color: #ffffff;
+}
+
+.summary-field-block {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 30px;
+  gap: 13px;
+}
+.summary-field-block:hover {
+  background-color: #2a3647;
+  color: #ffffff;
+}
+
+.separator-grey {
+  width: 2px;
+  height: 100px;
+  background-color: #d1d1d1;
+}
+
+.jc-start {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+#deadlineDate {
+  font-size: 16px;
+}
+.deadline-alert {
+  background-color: red;
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1110px) {
+  h2 {
+    font-size: 47px;
+  }
+  h5 {
+    font-size: 48px;
+  }
+  #greeting {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    animation: greetingScreen 1s 1s forwards ease-in;
+  }
+  @keyframes greetingScreen {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+      z-index: -200;
+    }
+  }
+  #summaryContent {
+    width: 100%;
+    font-size: 14px;
+    img {
+      width: 40px;
+    }
+  }
+  .summary-field {
+    padding: 24px 0;
+  }
+  .overview-content {
+    justify-content: center;
+  }
+  .icons-dark {
+    width: 40px;
+    height: 40px;
+  }
+  .summary-gap {
+    font-size: 14px;
+  }
+  .overview-content {
+    margin-bottom: 32px;
+  }
+  .content-title {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .content {
+    padding: 22px 16px 0 16px;
+  }
+
+  .overview-content {
+    margin: 0;
+  }
+
+  .content-title {
+    margin-bottom: 20px;
+  }
+
+  .summary-field {
+    padding: 10px 0;
+  }
+
+  .icons-dark {
+    width: 32px;
+    height: 32px;
+  }
+
+  h5 {
+    font-size: 40px;
+  }
+
+  #summaryContent {
+    img {
+      width: 32px;
+    }
+  }
+
+  .summary-field-long {
+    padding: 15px 0px;
+  }
+
+  .summary-field-block {
+    padding: 5px;
+  }
+
+  .summary-field-block {
+    gap: 5px;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .content-title {
+    gap: 4px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  .title-text {
+    font-size: 14px;
+  }
+  h5 {
+    font-size: 24px;
+  }
+  #deadlineDate {
+    font-size: 12px;
+  }
+  .summary-field-long{
+    padding: 0;
+  }
+  body{
+    overflow: hidden;
+  }
+  .content{
+    padding: 8px 10px;
+  }
+}

@@ -1,0 +1,71 @@
+.d-none {
+  display: none;
+}
+.sign_up_head {
+  display: flex;
+  padding: 80px 77px;
+  box-sizing: border-box;
+  width: 100%;
+  img {
+    height: 120px;
+  }
+}
+
+#signUp {
+  display: flex;
+  align-items: start;
+  flex-direction: row;
+  margin-bottom: 32px;
+}
+
+#backLogIn {
+  position: relative;
+  width: 0;
+  top: 20px;
+  right: 24px;
+}
+#succesSignUp {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 25px;
+  border-radius: 20px;
+  background-color: #2a3647;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+  animation-name: succes;
+  animation-fill-mode: forwards;
+  animation-duration: 0.5s;
+}
+
+@keyframes succes {
+  from {
+    bottom: -100px;
+  }
+  to {
+    bottom: 50%;
+  }
+}
+
+#succsesOverlay {
+  background-color: rgba(0, 0, 0, 0.15);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 1159px) {
+  .sign_up_head {
+    padding: 37px 38px;
+    img {
+      height: 78px;
+    }
+  }
+}
+@media screen and (max-height: 700px) {
+  #signUp {
+    margin-bottom: 0;
+  }
+}

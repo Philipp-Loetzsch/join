@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join - board</title>
+    <link rel="shortcut icon" href="./img/join_logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="./templates/menubar.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./css/board.css" />
+    <link rel="stylesheet" href="./css/board_detailCard.css">
+    <link rel="stylesheet" href="./templates/menubar-mobile.css" />
+    <link rel="stylesheet" href="./templates/header.css" />
+    <link rel="stylesheet" href="./css/add_task_popup.css" />
+    <link rel="stylesheet" href="./css/add_task.css" />
+    <link rel="stylesheet" href="./css/add_task_2.css">
+    <link rel="stylesheet" href="./css/media_add_task.css">
+    <script src="./js/script.js"></script>
+    <script src="./templates/menubar.js"></script>
+    <script src="./js/board.js"></script>
+    <script src="./js/boardDragAndDrop.js"></script>
+    <script src="./js/boardEditDetails.js"></script>
+    <script src="./js/guestTemplates.js"></script>
+    <script src="./js/addTask.js"></script>
+    <script src="./js/addTaskContacts.js"></script>
+    <script src="./js/htmTemplatesBoard.js"></script>
+    <script src="./js/contact.js"></script>
+  </head>
+  <body onload="includeHTML(); loadTasks()">
+    <section w3-include-html="./templates/menubar.html"></section>
+    <main>
+      <section w3-include-html="./templates/header.html"></section>
+      <div class="content max-width loading_delay">
+        <div class="board-header-section">
+          <div class="board-header">
+            <div class="board-headline">
+              <h1>Board</h1>
+              <button onclick="openAddTask()" class="board-add-task-button-repo">
+                <div class="board-add-task-repo">
+                  <div class="create-plus">
+                    <div class="line-x line3"></div>
+                    <div class="line-x line4"></div>
+                  </div>
+                </div>
+              </button>
+            </div>
+            <div class="board-search-add-task">
+              <form class="board-search" onsubmit="searchInBoard(); return false">
+                <input id="inputSearch" class="board-search-input" type="text" placeholder="Find task" onkeyup="searchInBoard()"/>
+                <button class="board-search-icons">
+                  <span class="search-seperator"></span>
+                  <img src="./img/search_icon.png" class="search-icon" />
+                </button>
+              </form>
+              <div class="board-add-task">
+                <button onclick="openBoardPopup('Todo')" class="board-add-task-button">
+                  Add task
+                  <div class="create-plus">
+                    <div class="line-x line3"></div>
+                    <div class="line-x line4"></div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="boardMenu">
+          <span id="msgNoTaskFound" class="d_none">No tasks found! Please change the content of your search.</span>
+          <div class="task" ondragover="allowDrop(event);addHighlight(id)" ondragleave="removeHighlight(id)" ondragend="abord(event,id)" ondrop="drop(event,'Todo')" id="tasksTodo">
+            <div class="board-menu-tasks">
+              To do
+              <button class="square-button" onclick="openBoardPopup('Todo')">
+                <img src="./img/plus.svg" alt="" />
+              </button>
+            </div>
+            <div id="noTodo" class="d_none"></div>
+            <div class="aktiv-tasks" id="cardsTodo" ondragstart="setCurrentTask('Todo')"></div>
+          </div>
+          <div class="task" ondragover="allowDrop(event);addHighlight(id)" ondragleave="removeHighlight(id)" ondragend="abord(event,id)" ondrop="drop(event, 'InProgress')" id="tasksInProgress">
+            <div class="board-menu-tasks">
+              In Progress
+              <button class="square-button" onclick="openBoardPopup('InProgress')">
+                <img src="./img/plus.svg" alt="" />
+              </button>
+            </div>
+            <div id="noInProgress"></div>
+            <div class="aktiv-tasks" id="cardsInProgress" ondragstart="setCurrentTask('InProgress')"></div>
+          </div>
+          <div class="task" ondragover="allowDrop(event);addHighlight(id)" ondragleave="removeHighlight(id)" ondragend="abord(event,id)" ondrop="drop(event, 'Feedback')" id="tasksFeedback">
+            <div class="board-menu-tasks">
+              Await Feedback
+              <button class="square-button" onclick="openBoardPopup('Feedback')">
+                <img src="./img/plus.svg" alt="" />
+              </button>
+            </div>
+            <div id="noFeedback" class="no-tasks"></div>
+            <div class="aktiv-tasks" id="cardsFeedback" ondragstart="setCurrentTask('Feedback')"></div>
+          </div>
+          <div class="task" ondragover="allowDrop(event);addHighlight(id)" ondragleave="removeHighlight(id)" ondragend="abord(event,id)" ondrop="drop(event, 'Done')" id="tasksDone">
+            <div class="board-menu-tasks">Done</div>
+            <div id="noDone" class="no-tasks"></div>
+            <div class="aktiv-tasks" id="cardsDone" ondragstart="setCurrentTask('Done')"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <section id="addTaskBoard" class="d_none" onclick="closeBoardPopup()">
+      <div class="add-task-popup" onclick="closeContactsList(); closeCategoryList(); stopPropagation(event)">
+        <div class="head-popup">
+          <h1 class="add-task-popup-headline">Add Task</h1>
+          <button onclick="closeBoardPopup()">X</button>
+        </div>
+        <form onsubmit="formValidation(chosenTaskStatus);return false;" class="form-addtask" >
+          <div class="main-section">
+            <div class="add-task-fields-left-content">
+              <div class="add-task-field-title">
+                <h2 class="add-task-headlines">Title<span class="add-task-star">*</span></h2>
+                <div class="input-field-title" id="input-field-title">
+                  <input id="task-title" class="add-task-inputfields" type="text" placeholder="Enter a title"/>
+                </div>
+                <div class="required-text-red" id="required-text-red"></div>
+              </div>
+              <div class="add-task-field-description">
+                <h2 class="add-task-headlines">Description</h2>
+                <div class="textarea-field-description">
+                  <textarea 
+                    class="add-task-description add-task-inputfields"
+                    name="add-description"
+                    id="task-description"
+                    type="text"
+                    placeholder="Enter a Description"></textarea>
+                </div>
+              </div>
+              <div class="add-task-field-contacts">
+                <h2 class="add-task-headlines">Assigned to</h2>
+                <div class="add-task-contacts-assign add-task-inputfields" id="add-task-contacts-assign" onclick="addContactsassign(); stopPropagation(event)">
+                  <div class="select-contact-assign" id="select-contact-assign">Select contacts to assign</div>
+                  <input class="add-task-contacts-input d-none" id="add-task-contacts-input" type="text" onkeyup="searchContact()" placeholder="Select contacts to assign"><img class="category-arrow-down" id="add-task-contacts-assign-img" src="./img/arrow_drop_down.png">
+                </div>
+                <div class="d-none contacts-to-assign" id="contacts-to-assign"></div>
+                <div class="short-name d-none" id="short-name"></div>
+              </div>
+            </div>
+            <div class="add-task-seperator"></div>
+            <div class="add-task-fields-right-content">
+              <div class="add-task-field-title">
+                <h2 class="add-task-headlines">Due Date<span class="add-task-star">*</span></h2>
+                <div class="add-task-date">
+                  <input id="add-task-due-date" class="add-task-due-date" type="date"/>
+                </div>
+                <div class="required-text-red" id="required-text-red-date"></div>
+              </div>
+              <div class="add-task-prio">
+                <h2 class="add-task-headlines">Prio</h2>
+                  <div class="add-task-prio-icons" id="task-prio-icons">
+                    <span class="btn-prio" id="task-icon-urgent" onclick="taskPrioUrgent()">Urgent 
+                      <img id="icon-urgent-img" src="./img/prio_urgent.png">
+                    </span>
+                    <span class="btn-prio" id="task-icon-medium" onclick="taskPrioMedium()">Medium 
+                      <img id="icon-medium-img" src="./img/prio_medium.png">
+                    </span>
+                    <span class="btn-prio" id="task-icon-low" onclick="taskPrioLow()">Low 
+                      <img id="icon-low-img" src="./img/prio_low.png">
+                    </span>
+                  </div>
+              </div>
+              <div class="add-task-category" id="select-task-category">
+                <h2 class="add-task-headlines">Category<span class="add-task-star">*</span></h2>
+                  <div class="add-task-category-text" id="add-task-category-text" onclick="selectCategory(); stopPropagation(event)">
+                    <span id="selected-task">Select task category</span>
+                    <img class="category-arrow-down" id="select-task-category-img" src="./img/arrow_drop_down.png">
+                  </div>
+                  <div class="required-text-red" id="required-text-red-task-category"></div>
+                  <div class="select-category d-none" id="select-category">
+                    <div id="select-technical-task" class="category-task-technical" onclick="selectedTechnicalTask()">Technical Task</div>
+                    <div id="select-user-story" class="category-task-user-story" onclick="selectedUserStory()">User Story</div>
+                  </div>
+              </div>
+              <div class="add-task-subtasks" id="task-subtasks">
+                <h2 class="add-task-headlines">Subtasks</h2>
+              </div>
+              <div class="add-task-subtasks-select" id="add-editable-input">
+                <input type="text" placeholder="Add new subtask" id="inputfield-subtask" class="inpufield-subtask" onclick="writeSubtask()" onkeydown="submitSubtaskWithEnter(event)">
+                <div class="add-subtask-icon" id="add-subtask-icon" onclick="writeSubtask()" ><img class="add-subtask-icon-img" src="./img/add-icon.png"></div>
+                  <div class="d-none" id="add-icons">
+                    <div class="icon-box-subtask">
+                      <img class="x-icon-subtask" src="./img/x_icon.png" onclick="cancelEdit()">
+                    </div>
+                    <span class="subtask-seperator"></span>
+                    <div class="icon-box-subtask">
+                      <img class="check-icon-subtask" src="./img/check_subtask.png" onclick="createSubtask()">
+                    </div>
+                  </div>
+                </div>
+              <div class="created-subtaks" id="created-subtaks"></div>
+            </div>
+          </div>
+          <div class="add-task-footer-content">
+            <div class="text-required">
+              <span class="add-task-star">*</span>
+              <p>This field is required</p>
+            </div>
+            <div class="add-task-footer-buttons">
+              <button class="button-create-task">Create Task <img src="./img/check_icon.png"></button>
+              <button type="button" class="add-task-clear" onclick="clearForm()"><p>Clear</p>
+                <div class="create-x">
+                  <div class="line line1"></div>
+                  <div class="line line2"></div>
+                </div>
+              </button> 
+            </div>
+          </div>
+        </form>
+        <div id="succesAddedTask" class="d_none">
+          <div class="button_dark added-message">
+            <span>Task added to board</span>
+            <img src="./img/addedTask.svg" alt="">
+          </div>
+         </div>
+        <div id="task-added-popup" class="task-added-popup d-none">
+          <div class="popup-text">Task added to board</div>
+          <img class="popup-img" src="./img/board.icon.svg">
+        </div>
+      </div>
+    </section>
+    <section id="detailedCard" class="d_none" onclick="closeDetailCard()"></section>
+    <section w3-include-html="./templates/menubar-mobile.html" class="pos-sticky-bottom"
+    ></section>
+  </body>
+</html>
