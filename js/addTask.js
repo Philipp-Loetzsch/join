@@ -17,13 +17,13 @@ let isValidCategory = false;
 let isValidTitle = false;
 let isValidDate = false;
 
-function formValidation(task){
+/* function formValidation(task){
   if (isValidCategory && isValidDate && isValidTitle) {
     createNewTask(task)
     return
   }
   dataTitle(task);  
-}
+} */
 
 /**
  * this function collect the task data
@@ -58,10 +58,9 @@ async function postData() {
   document.getElementById('succesAddedTask').classList.add('added-task') 
   setTimeout(() => {
     document.getElementById('succesAddedTask').classList.remove('added-task')
-    if(window.location === "add_task.html") window.location.href = "board.html"
+    if(window.location.pathname === "/add_task.html") return window.location.href = "board.html"
+    clearForm()
   }, 1000);
-
-  
 }
 
 /**
@@ -71,13 +70,15 @@ async function postData() {
 function dataTitle(task) {
   let title = document.getElementById("task-title").value.trim();
   if(title === '' ) {
-    showRequires();
+    document.getElementById("required-text-red-title").innerHTML= `This field is required`;
+    document.getElementById('task-title').style.border = '1px solid rgba(255, 129, 144, 1)';
     isValidTitle = false;
   } else {
     data.title = title;
     isValidTitle = true;
-    dataDueDate(task);
+    emptyRrequiredAddTask('task-title')
   }
+  dataDueDate(task);
 }
 
 /**
@@ -86,28 +87,32 @@ function dataTitle(task) {
  */
 
 function dataDueDate(task) {
-  let date = document.getElementById('add-task-due-date').value;
+  let date = document.getElementById('task-due-date').value;
   if(date === '') {
-    showRequires();
+    document.getElementById("required-text-red-due-date").innerHTML= `This field is required`;
+    document.getElementById('task-due-date').style.border = '1px solid rgba(255, 129, 144, 1)';
     isValidDate = false;
   } else {
     data.dueDate = date;
     isValidDate = true;
-    selectcategory(task);  
+    emptyRrequiredAddTask('task-due-date')
   }
+  selectcategory(task);  
 }
 
+
 /**
- *This is the required field function 
+ * Clears the error message and resets the border style for the specified task input field.
+ * 
+ * @param {string} - The ID of the task input field, expected to follow the format 'task-{fieldName}'.
+ * @returns {void}
  */
-function showRequires(){
-    document.getElementById('task-title').style.border = '1px solid rgba(255, 129, 144, 1)';
-    document.getElementById('add-task-due-date').style.border = '1px solid rgba(255, 129, 144, 1)';
-    document.getElementById('add-task-category-text').style.border = '1px solid rgba(255, 129, 144, 1)';
-    let requires = document.getElementsByClassName('required-text-red');
-    for (let i = 0; i < requires.length; i++) {
-      requires[i].innerHTML = `This field is required`;
-    }
+function emptyRrequiredAddTask(id){
+  let emptyRequiredField = id.replace('task-', '');
+  let inputField = document.getElementById("required-text-red-"+ emptyRequiredField)
+  inputField.innerHTML = "";
+  document.getElementById(id).style.border = '1px solid rgba(209, 209, 209, 1)';
+  return
 }
 
 /**
@@ -140,13 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`
   }
-  document.getElementById('add-task-due-date').min = getCurrentDate();
+  document.getElementById('task-due-date').min = getCurrentDate();
 });
 
 /**
  * this functions change button styles and select prio
  */
-
 function taskPrioUrgent() {
   document.getElementById('task-icon-urgent').classList.add('task-icon-urgent-clicked');
   document.getElementById('icon-urgent-img').src = './img/prio_urgent_white.png';
@@ -161,6 +165,9 @@ function taskPrioUrgent() {
   data.prio.low = false;
 }
 
+/**
+ * this functions change button styles and select prio
+ */
 async function taskPrioMedium() {
   document.getElementById('task-icon-medium').classList.add('task-icon-medium-clicked');
   document.getElementById('icon-medium-img').src = './img/prio_medium_white.png';
@@ -177,6 +184,9 @@ async function taskPrioMedium() {
   showAssignedContacts();
 }
 
+/**
+ * this functions change button styles and select prio
+ */
 function taskPrioLow() {
   document.getElementById('task-icon-low').classList.add('task-icon-low-clicked');
   document.getElementById('icon-low-img').src = './img/prio_low_white.png';
@@ -198,15 +208,22 @@ function taskPrioLow() {
 function selectCategory() {
   showcategory();
   document.getElementById('selected-task').innerHTML = 'Select task category';
-  document.getElementById('add-task-category-text').style.border = '1px solid rgba(255, 255, 255, 1)';
+  document.getElementById('add-task-category-text').style.border =  '1px solid rgba(209, 209, 209, 1)';
+  document.getElementById('required-text-red-task-category').innerHTML = '';
 }
 
+/**
+ * this function show different task category
+ */
 function showcategory() {
   document.getElementById('select-task-category-img').classList.toggle('rotate-arrow');
   document.getElementById('select-category').classList.toggle('d-none');
   document.getElementById('add-task-category-text').classList.toggle('shadow-box');
 }
 
+/**
+ * this function show different task category
+ */
 function closeCategoryList(){
   document.getElementById('select-task-category-img').classList.remove('rotate-arrow');
   document.getElementById('select-category').classList.add('d-none');
@@ -219,14 +236,16 @@ function closeCategoryList(){
 
 function selectcategory(task) {
   if(data.category === '') {
-    showRequires();
+    document.getElementById("required-text-red-task-category").innerHTML= `This field is required`;
+    document.getElementById('add-task-category-text').style.border = '1px solid rgba(255, 129, 144, 1)';
     isValidCategory = false;
-    return
   } else {
     isValidCategory = true;
-    formValidation(task)
   }
-  
+  if (isValidCategory && isValidDate && isValidTitle) {
+    createNewTask(task)
+    return
+  }
 }
 
 function selectedTechnicalTask() {
@@ -286,9 +305,11 @@ function submitSubtaskWithEnter(event) {
 function createSubtask() {
   let newSubtask = document.getElementById('inputfield-subtask').value; 
   let subTask = false;
-  data.subtasks.push({newsubtask:newSubtask , completed: subTask});
+  if(newSubtask !== '') {
+    data.subtasks.push({newsubtask:newSubtask , completed: subTask});
   renderSubtasks();
   cancelEdit();
+  }
 }
 
 /**
@@ -356,6 +377,11 @@ function deleteSubtask(index) {
   document.getElementById('max-subtasks-created').classList.remove('max-subtask');
 }
 
+/**
+ * Switches the visibility of a subtask from the edit mode to the normal view mode.
+ * 
+ * @param {number|string} index - The index or identifier of the subtask. It is used to target the correct HTML elements.
+ */
 function deleteEditSubtask(index) {
   document.getElementById(`edit-${index}`).classList.remove('edit-subtasks');
   document.getElementById(`edit-${index}`).classList.add('d-none');
@@ -392,7 +418,7 @@ function clearForm() {
   cancelEdit();
   document.getElementById("task-title").value = '';
   document.getElementById("task-description").value = '';
-  document.getElementById('add-task-due-date').value = '';
+  document.getElementById('task-due-date').value = '';
   document.getElementById('selected-task').innerHTML = 'Select task category';
   document.getElementById('select-category').classList.add('d-none');
   document.getElementById('task-subtasks').classList.remove('d-none');

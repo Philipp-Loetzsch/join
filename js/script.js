@@ -42,6 +42,7 @@ function loadUser() {
 function selectField(selectedField) {
   let blueline = document.getElementById(selectedField);
   blueline.parentNode.classList.add("blue-border");
+  blueline.parentNode.classList.remove("required-border")
 }
 
 /**
